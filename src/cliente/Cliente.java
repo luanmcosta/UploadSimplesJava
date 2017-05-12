@@ -7,8 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import view.cliente.TelaCliente;
 
 public class Cliente {
 
@@ -18,8 +17,9 @@ public class Cliente {
     BufferedInputStream entradaArqBuff;
     OutputStream saidaDados;
     File arquivo;
-    byte[] bytes;
+    byte[] bytes;  
     
+    // Métodos 
     
     public void iniciarCliente(){
         
@@ -37,12 +37,14 @@ public class Cliente {
             System.out.println("Erro ao tentar criar canal de saida com o servidor");
         }
         
-        // Instanciar arquivo à ser enviado
-        arquivo = new File("teste.txt");
-     
-        // Instanciar bytes (onde seram bufferizados) do tamanho de bytes do meu arquivo
-        bytes = new byte[(int) arquivo.length()];
-        
+        // Iniciar Interface 
+        TelaCliente tc = new TelaCliente(this);
+        tc.setVisible(true);
+    
+    }
+    
+    public void enviarArquivo(){
+
         // Tentar instanciar canal de entrada do arquivo a partir do meu arquivo local
         try {    
             entradaArq = new FileInputStream(arquivo);
@@ -74,7 +76,25 @@ public class Cliente {
         } catch (IOException ex) {
             System.out.println("Problema ao limpar e encerrar conexões");
         }
-    
     }
+    
+    // Getters e Setters
+
+    public File getArquivo() {
+        return arquivo;
+    }
+
+    public void setArquivo(File arquivo) {
+        this.arquivo = arquivo;
+    }
+
+    public byte[] getBytes() {
+        return bytes;
+    }
+
+    public void setBytes(byte[] bytes) {
+        this.bytes = bytes;
+    }
+    
     
 }
